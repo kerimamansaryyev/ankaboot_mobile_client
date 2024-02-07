@@ -2,6 +2,7 @@ import 'package:ankabootmobile/src/core/navigation/app_navigator.dart';
 import 'package:ankabootmobile/src/core/navigation/per_page_navigator_mixin.dart';
 import 'package:ankabootmobile/src/di/injection_container.dart';
 import 'package:ankabootmobile/src/features/ams_apis/domain/entities/ams_api_status.dart';
+import 'package:ankabootmobile/src/features/ams_apis/presentation/ams_apis_navigator.dart';
 import 'package:ankabootmobile/src/features/home/presentation/widgets/home_page_choose_ams_status_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -12,7 +13,10 @@ typedef HomePageChooseAMSStatusDialogOnStatusChosen = void Function(
 
 @injectable
 final class HomeNavigator
-    with PerPageNavigatorMixin, HomePageChooseAMSStatusDialogMixin {
+    with
+        PerPageNavigatorMixin,
+        HomePageChooseAMSStatusDialogMixin,
+        CreateAMSAPIPageRouteMixin {
   @override
   final AppNavigator appNavigator;
 

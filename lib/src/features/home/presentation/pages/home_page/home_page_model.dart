@@ -1,3 +1,4 @@
+import 'package:ankabootmobile/src/core/presentation/blocs/global_interpage_conversation_bloc.dart';
 import 'package:ankabootmobile/src/core/utils/mvp/app_model.dart';
 import 'package:ankabootmobile/src/features/ams_apis/presentation/blocs/fetch_ams_apis_bloc.dart';
 import 'package:ankabootmobile/src/features/ams_apis/presentation/stores/global_ams_api_status_change_store.dart';
@@ -13,8 +14,10 @@ final class HomePageModel implements AppModel {
   final FetchAMSAPIsBloc fetchAMSAPIsBloc;
   final HomePageAMSAPIFilterBloc homePageAMSAPIFilterBloc;
   final GlobalAMSAPIStatusChangeStore globalAMSAPIStatusChangeStore;
+  final GlobalInterPageConversationBloc globalInterPageConversationBloc;
 
   const HomePageModel(
+    this.globalInterPageConversationBloc,
     this.globalSettingsStore,
     this.homePageTabBloc,
     this.fetchAMSAPIsBloc,

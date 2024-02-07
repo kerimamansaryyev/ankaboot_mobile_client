@@ -1,8 +1,10 @@
+import 'package:ankabootmobile/src/core/presentation/blocs/global_interpage_conversation_bloc.dart';
 import 'package:ankabootmobile/src/core/utils/failure_mapper.dart';
 import 'package:ankabootmobile/src/core/utils/mvp/app_presenter.dart';
 import 'package:ankabootmobile/src/di/injection_container.dart';
 import 'package:ankabootmobile/src/features/ams_apis/domain/entities/ams_api_status.dart';
 import 'package:ankabootmobile/src/features/ams_apis/presentation/blocs/fetch_ams_apis_bloc.dart';
+import 'package:ankabootmobile/src/features/ams_apis/presentation/pages/create_ams_api_page/create_ams_api_page_message.dart';
 import 'package:ankabootmobile/src/features/ams_apis/presentation/stores/global_ams_api_status_change_store.dart';
 import 'package:ankabootmobile/src/features/home/presentation/blocs/home_page_ams_api_filter_bloc.dart';
 import 'package:ankabootmobile/src/features/home/presentation/pages/home_page/home_page_model.dart';
@@ -64,6 +66,7 @@ final class HomePagePresenter
   }) {
     return MultiBlocListener(
       listeners: [
+        _onInterPageMessageReceived(),
         _onFiltersApplied(),
         _onAPIsFetched(),
         _onAPIStatusChangeAttempted(),
@@ -98,6 +101,15 @@ final class HomePagePresenter
               context,
               failure.mapToStringWith(context),
             ),
+        },
+      );
+
+  BlocListener _onInterPageMessageReceived() => BlocListener<
+          GlobalInterPageConversationBloc, GlobalInterPageConversationState>(
+        bloc: model.globalInterPageConversationBloc,
+        listener: (context, state) => switch (state.lastMessage) {
+          CreateAMSAPIPageAPICreatedMessage() => fetchAMSAPIs(),
+          _ => null,
         },
       );
 

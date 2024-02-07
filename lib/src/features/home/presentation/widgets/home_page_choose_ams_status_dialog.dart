@@ -30,7 +30,7 @@ class HomePageChooseAMASStatusDialog extends StatelessWidget {
         ),
         child: Column(
           children: [
-            for (final status in AMSAPIStatus.values)
+            for (final status in AMSAPIStatus.displayValues)
               Row(
                 children: [
                   Expanded(
@@ -50,9 +50,9 @@ class HomePageChooseAMASStatusDialog extends StatelessWidget {
                         onStatusChosen(newStatus);
                       },
                     ),
-                  )
+                  ),
                 ],
-              )
+              ),
           ],
         ),
       ),
@@ -65,7 +65,7 @@ class HomePageChooseAMASStatusDialog extends StatelessWidget {
               fontSize: Theme.of(context).textTheme.titleMedium?.fontSize,
             ),
           ),
-        )
+        ),
       ],
     );
   }

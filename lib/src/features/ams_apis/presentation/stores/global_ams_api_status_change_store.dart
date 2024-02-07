@@ -37,8 +37,10 @@ final class GlobalAMSAPIStatusChangeStore
     );
     _emit();
     (await _changeStatusAMSAPIEntity(
-      apiID: apiEntity.id,
-      newStatus: newStatus,
+      (
+        apiID: apiEntity.id,
+        newStatus: newStatus,
+      ),
     ))
         .fold(
       left: (failure) => _emitWithFailure(

@@ -4,15 +4,15 @@ import 'package:ankabootmobile/src/features/ams_apis/domain/repositories/ams_api
 import 'package:injectable/injectable.dart';
 
 @injectable
-class ChangeStatusAMSAPIEntity {
-  final AMSAPIsRepository _amsRepository;
+class CreateAMSAPIEntity {
+  final AMSAPIsRepository _apiRepository;
 
-  const ChangeStatusAMSAPIEntity(
-    this._amsRepository,
+  const CreateAMSAPIEntity(
+    this._apiRepository,
   );
 
   Future<Either<Failure, void>> call(
-    ChangeStatusAMSAPIEntityDTO changeStatusAMSAPIEntity,
+    CreateAMSAPIEntityDTO createAMSAPIEntityDTO,
   ) =>
-      _amsRepository.changeStatusOfAPI(changeStatusAMSAPIEntity);
+      _apiRepository.createAPIEntity(createAMSAPIEntityDTO);
 }

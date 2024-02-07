@@ -1,12 +1,18 @@
 {
   "exception": "Exception",
   "tryAgain": "Try again",
+  "textFieldRequired": "This text field must be filled",
   "homePageTheme": "Theme",
   "homePageAPIsTab": "APIs",
   "homePageServicesTab": "Services",
   "homePageAPIStatus": "Status",
   "homePageAMSAssignNewStatus": "Assign status",
   "homePagesEmptyAPIs": "No APIs found",
-  "homePageAddAPI": "Add API"
-
+  "homePageAddAPI": "Add API",
+  "createAMSAPIPageAPICreated": "API was created!",
+  "createAMSAPIPageTitle": "Add new API model",
+  "createAMSAPIPageTFieldTitle": "Title",
+  "createAMSAPIPageTFieldDescription": "Description",
+  "createAMSAPIPageTFieldUrl": "URL",
+  "createAMSAPIPageTFieldStatus": "Status"
 }

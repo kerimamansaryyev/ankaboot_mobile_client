@@ -302,7 +302,10 @@ class _HomePageAMSAPIsTabState extends State<HomePageAMSAPIsTab>
                             ),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () =>
+                            widget.navigator.navigateToCreateAMSAPIPage(
+                          context,
+                        ),
                         icon: Icon(
                           Icons.add,
                           color: Theme.of(context)
@@ -364,7 +367,7 @@ class _AMSFilterStatusCarousel extends StatelessWidget {
                 ),
                 scrollDirection: Axis.horizontal,
                 children: [
-                  for (final status in AMSAPIStatus.values)
+                  for (final status in AMSAPIStatus.displayValues)
                     BlocBuilder<BlocBase<HomePageAMSAPIFilterState>,
                         HomePageAMSAPIFilterState>(
                       bloc: homePagePresenter.homePageAMSAPIFilterBloc(),

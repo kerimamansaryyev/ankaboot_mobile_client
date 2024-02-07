@@ -11,6 +11,14 @@ class _ContextColorAccess implements ColorSchemaAccess {
 
   @override
   Color get homePageScaffoldColor => Theme.of(context).colorScheme.background;
+
+  @override
+  Color get createAMSAPIPageScaffoldColor =>
+      Theme.of(context).colorScheme.background;
+
+  @override
+  Color get loaderWrapperBackgroundColor =>
+      Theme.of(context).colorScheme.background;
 }
 
 extension ContextColorExtension on BuildContext {

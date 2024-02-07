@@ -6,36 +6,17 @@ import 'package:ankabootmobile/src/features/ams_apis/domain/entities/ams_api_sta
 import 'package:ankabootmobile/src/features/ams_apis/domain/repositories/ams_apis_repository.dart';
 import 'package:injectable/injectable.dart';
 
-const _mockAPIEntities = [
-  AMSAPIEntity(
-    id: '1',
-    status: AMSAPIStatus.free,
-    title: 'Title 1',
-    url: 'http://moon.com',
-    description: 'This is very good API Lorem Ipsum',
-  ),
-  AMSAPIEntity(
-    id: '2',
-    status: AMSAPIStatus.newAPI,
-    title: 'Title 2',
-    url: 'http://earth.com',
-    description: 'This is very good API Lorem Ipsum',
-  ),
-  AMSAPIEntity(
-    id: '3',
-    status: AMSAPIStatus.unavailable,
-    title: 'Title 3',
-    url: 'http://google.com',
-    description: 'This is very good API',
-  ),
-  AMSAPIEntity(
-    id: '4',
-    status: AMSAPIStatus.uncertain,
-    title: 'Title 4',
-    url: 'http://google.com',
-    description: 'This is very good API',
-  ),
-];
+final _mockAPIEntities = <String, AMSAPIEntity>{
+  for (int i = 0; i < 10; i++)
+    i.toString(): AMSAPIEntity(
+      id: i.toString(),
+      title: 'Title $i',
+      status: AMSAPIStatus.values[i % AMSAPIStatus.values.length],
+      url: 'https://api$i.hello.com',
+      description: 'Very useful API for getting subscribers count',
+    ),
+};
+int _lastApiIndex = _mockAPIEntities.length;
 
 @testEnv
 @LazySingleton(as: AMSAPIsRepository)
@@ -52,7 +33,7 @@ final class MockAMSAPIsRepository implements AMSAPIsRepository {
         //   ),
         // ),
         () => Right(
-          [..._mockAPIEntities, ..._mockAPIEntities]
+          [..._mockAPIEntities.values]
               .where(
                 (element) =>
                     statusFilter == null || element.status == statusFilter,
@@ -62,17 +43,51 @@ final class MockAMSAPIsRepository implements AMSAPIsRepository {
       );
 
   @override
-  Future<Either<Failure, void>> changeStatusOfAPI({
-    required String apiID,
-    required AMSAPIStatus newStatus,
-  }) =>
+  Future<Either<Failure, void>> changeStatusOfAPI(
+    ChangeStatusAMSAPIEntityDTO changeStatusAMSAPIEntityDTO,
+  ) =>
       Future.delayed(
         const Duration(
           seconds: 1,
         ),
-        () => const Right(null),
+        () {
+          if (!_mockAPIEntities
+              .containsKey(changeStatusAMSAPIEntityDTO.apiID)) {
+            return Left(
+              UnknownFailure(
+                exception: Exception('Did not find the api entity'),
+              ),
+            );
+          }
+          final apiEntity =
+              _mockAPIEntities[changeStatusAMSAPIEntityDTO.apiID]!;
+          _mockAPIEntities[changeStatusAMSAPIEntityDTO.apiID] = AMSAPIEntity(
+            id: apiEntity.id,
+            title: apiEntity.title,
+            status: changeStatusAMSAPIEntityDTO.newStatus,
+            url: apiEntity.url,
+            description: apiEntity.description,
+          );
+          return const Right(null);
+        },
         // () => const Left(
         //   UnknownFailure(),
         // ),
       );
+
+  @override
+  Future<Either<Failure, void>> createAPIEntity(
+    CreateAMSAPIEntityDTO createAMSAPIEntityDTO,
+  ) async {
+    final id = _lastApiIndex++;
+    _mockAPIEntities[id.toString()] = AMSAPIEntity(
+      id: id.toString(),
+      title: createAMSAPIEntityDTO.title,
+      status: createAMSAPIEntityDTO.status,
+      url: createAMSAPIEntityDTO.url,
+      description: createAMSAPIEntityDTO.description,
+    );
+    await Future.delayed(const Duration(seconds: 2));
+    return const Right(null);
+  }
 }
