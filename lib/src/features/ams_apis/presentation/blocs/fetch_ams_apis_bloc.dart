@@ -8,6 +8,7 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 final class FetchAMSAPIsBloc extends Cubit<FetchAMSAPIsState> {
+  int _callingSession = 0;
   final GetAMSAPIEntities _getAMSAPIEntities;
 
   FetchAMSAPIsBloc(
@@ -19,22 +20,24 @@ final class FetchAMSAPIsBloc extends Cubit<FetchAMSAPIsState> {
   void fetchApis({
     AMSAPIStatus? statusFilter,
   }) async {
+    final currentSession = ++_callingSession;
     emit(const FetchAMSAPIsLoading());
-    emit(
-      (await _getAMSAPIEntities(
-        statusFilter: statusFilter,
-      ))
-          .fold(
-        left: (failure) => FetchAMSAPIsError(
-          failure: failure,
-        ),
-        right: (amsAPIs) => amsAPIs.isEmpty
-            ? const FetchAMSAPIsEmpty()
-            : FetchAMSAPIsSucceeded(
-                apiEntities: amsAPIs,
-              ),
+    final newState = (await _getAMSAPIEntities(
+      statusFilter: statusFilter,
+    ))
+        .fold(
+      left: (failure) => FetchAMSAPIsError(
+        failure: failure,
       ),
+      right: (amsAPIs) => amsAPIs.isEmpty
+          ? const FetchAMSAPIsEmpty()
+          : FetchAMSAPIsSucceeded(
+              apiEntities: amsAPIs,
+            ),
     );
+    if (currentSession == _callingSession) {
+      emit(newState);
+    }
   }
 }
 
