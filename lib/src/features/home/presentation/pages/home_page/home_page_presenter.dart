@@ -1,7 +1,9 @@
+import 'package:ankabootmobile/src/core/utils/failure_mapper.dart';
 import 'package:ankabootmobile/src/core/utils/mvp/app_presenter.dart';
 import 'package:ankabootmobile/src/di/injection_container.dart';
 import 'package:ankabootmobile/src/features/ams_apis/domain/entities/ams_api_status.dart';
 import 'package:ankabootmobile/src/features/ams_apis/presentation/blocs/fetch_ams_apis_bloc.dart';
+import 'package:ankabootmobile/src/features/ams_apis/presentation/stores/global_ams_api_status_change_store.dart';
 import 'package:ankabootmobile/src/features/home/presentation/blocs/home_page_ams_api_filter_bloc.dart';
 import 'package:ankabootmobile/src/features/home/presentation/pages/home_page/home_page_model.dart';
 import 'package:ankabootmobile/src/features/home/presentation/pages/home_page/home_page_view.dart';
@@ -23,6 +25,19 @@ final class HomePagePresenter
   );
 
   factory HomePagePresenter.fromEnv() => serviceLocator<HomePagePresenter>();
+
+  void updateAMSAPIStatus({
+    required String amsAPIId,
+    required AMSAPIStatus currentStatus,
+    required AMSAPIStatus newStatus,
+  }) =>
+      model.globalAMSAPIStatusChangeStore.changeStatus(
+        apiEntity: (
+          id: amsAPIId,
+          status: currentStatus,
+        ),
+        newStatus: newStatus,
+      );
 
   void toggleTheme(BuildContext context) =>
       switch (Theme.of(context).brightness) {
@@ -50,10 +65,15 @@ final class HomePagePresenter
     return MultiBlocListener(
       listeners: [
         _onFiltersApplied(),
+        _onAPIsFetched(),
+        _onAPIStatusChangeAttempted(),
       ],
       child: child,
     );
   }
+
+  BlocBase<GlobalAMSAPIStatusChangeState> globalAMSAPIStatusChangeStore() =>
+      model.globalAMSAPIStatusChangeStore;
 
   BlocBase<GlobalSettingsState> globalSettingsStore() =>
       model.globalSettingsStore;
@@ -64,6 +84,43 @@ final class HomePagePresenter
 
   BlocBase<HomePageAMSAPIFilterState> homePageAMSAPIFilterBloc() =>
       model.homePageAMSAPIFilterBloc;
+
+  BlocListener _onAPIStatusChangeAttempted() => BlocListener<
+          GlobalAMSAPIStatusChangeStore, GlobalAMSAPIStatusChangeState>(
+        bloc: model.globalAMSAPIStatusChangeStore,
+        listener: (context, state) => switch (state.latest) {
+          GlobalAMSAPIStatusChangeStateItemSucceeded() ||
+          GlobalAMSAPIStatusChangeStateItemLoading() ||
+          null =>
+            null,
+          GlobalAMSAPIStatusChangeStateItemError(failure: final failure) =>
+            view?.showErrorDialog(
+              context,
+              failure.mapToStringWith(context),
+            ),
+        },
+      );
+
+  BlocListener _onAPIsFetched() =>
+      BlocListener<FetchAMSAPIsBloc, FetchAMSAPIsState>(
+        bloc: model.fetchAMSAPIsBloc,
+        listener: (context, state) {
+          switch (state) {
+            case FetchAMSAPIsLoading():
+              return;
+            case FetchAMSAPIsEmpty():
+              return;
+            case FetchAMSAPIsError():
+              return;
+            case FetchAMSAPIsSucceeded(apiEntities: final apiEntities):
+              model.globalAMSAPIStatusChangeStore.clearSucceededOnesWith(
+                snippets: apiEntities
+                    .map((e) => (id: e.id, status: e.status))
+                    .toList(),
+              );
+          }
+        },
+      );
 
   BlocListener _onFiltersApplied() =>
       BlocListener<HomePageAMSAPIFilterBloc, HomePageAMSAPIFilterState>(

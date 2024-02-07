@@ -31,6 +31,14 @@ class _HomePageState extends State<HomePage> implements HomePageView {
       );
 
   @override
+  void showErrorDialog(BuildContext context, String message) =>
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+        ),
+      );
+
+  @override
   void dispose() {
     _presenter.dispose();
     super.dispose();

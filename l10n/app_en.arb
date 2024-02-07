@@ -1,8 +1,12 @@
 {
   "exception": "Exception",
+  "tryAgain": "Try again",
   "homePageTheme": "Theme",
   "homePageAPIsTab": "APIs",
   "homePageServicesTab": "Services",
   "homePageAPIStatus": "Status",
-  "homePageAMSAssignNewStatus": "Assign status"
+  "homePageAMSAssignNewStatus": "Assign status",
+  "homePagesEmptyAPIs": "No APIs found",
+  "homePageAddAPI": "Add API"
+
 }

@@ -7,4 +7,8 @@ abstract interface class AMSAPIsRepository {
   Future<Either<Failure, List<AMSAPIEntity>>> getAMSAPIEntities({
     required AMSAPIStatus? statusFilter,
   });
+  Future<Either<Failure, void>> changeStatusOfAPI({
+    required String apiID,
+    required AMSAPIStatus newStatus,
+  });
 }
