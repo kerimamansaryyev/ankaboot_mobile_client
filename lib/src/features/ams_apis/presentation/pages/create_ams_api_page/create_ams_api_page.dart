@@ -113,21 +113,6 @@ class _CreateAMSAPIPageState extends State<CreateAMSAPIPage>
   }
 
   @override
-  void showSuccessDialog(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        content: Text(
-          message,
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.onPrimary,
-          ),
-        ),
-      ),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
     return _presenter.buildMultiBlocListener(
       context,

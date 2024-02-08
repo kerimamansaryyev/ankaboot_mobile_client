@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
@@ -27,3 +28,12 @@ final class GlobalInterPageConversationState {
 }
 
 abstract interface class GlobalInterPageConversationMessage {}
+
+abstract interface class GlobalInterPageConversationDisplayMessage
+    implements GlobalInterPageConversationMessage {
+  bool get displayFromRootSubscriber;
+
+  void displayMessage(
+    BuildContext context,
+  );
+}

@@ -1,4 +1,7 @@
 import 'package:ankabootmobile/src/core/navigation/app_navigator.dart';
+import 'package:ankabootmobile/src/core/presentation/blocs/global_interpage_conversation_bloc.dart';
+import 'package:ankabootmobile/src/core/ui/widgets/global_interpage_conversation_message_subscriber_mixin.dart';
+import 'package:ankabootmobile/src/di/injection_container.dart';
 import 'package:ankabootmobile/src/features/home/presentation/pages/home_page/home_page.dart';
 import 'package:ankabootmobile/src/features/settings/domain/entities/app_language.dart';
 import 'package:ankabootmobile/src/features/settings/domain/entities/app_theme.dart';
@@ -15,7 +18,26 @@ class AnkabootApp extends StatefulWidget {
   State<AnkabootApp> createState() => _AnkabootAppState();
 }
 
-class _AnkabootAppState extends State<AnkabootApp> {
+class _AnkabootAppState extends State<AnkabootApp>
+    with GlobalInterPageConversationMessageSubscriberMixin {
+  @override
+  final GlobalInterPageConversationBloc globalInterPageConversationBloc =
+      serviceLocator<GlobalInterPageConversationBloc>();
+
+  @override
+  void handleInterPageMessageReceived(
+    BuildContext context,
+    GlobalInterPageConversationMessage message,
+  ) {
+    switch (message) {
+      case GlobalInterPageConversationDisplayMessage(
+          displayFromRootSubscriber: true,
+        ):
+        message.displayMessage(context);
+        return;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -36,7 +58,12 @@ class _AnkabootAppState extends State<AnkabootApp> {
                         AppTheme.fromBrightness(
                           MediaQuery.of(context).platformBrightness,
                         ).themeData,
-                    child: child!,
+                    child: MultiBlocListener(
+                      listeners: [
+                        onInterPageMessageReceivedListener(),
+                      ],
+                      child: child!,
+                    ),
                   );
                 },
               );
