@@ -1,16 +1,25 @@
 # ankabootmobile
 
-A new Flutter project.
+A client project for Ankaboot system. Provides manual control over 
+the AMS (API Management System) APIs and monitoring running SMS (Service Management System).
 
-## Getting Started
+## Architecture
+FDD (Feature-Driven-Design) + MVP (Model-View-Presenter) for the presentation layer.
 
-This project is a starting point for a Flutter application.
+## Pages
 
-A few resources to get you started if this is your first Flutter project:
+### APIs management.
+- Provides a list of available API endpoints and ability to filter them by the status.
+- Possible to change the status of an endpoint manually
+- Possible to create a new API endpoint
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+<img src="./screenshots/Screenshot_20240208_011010.png" alt="apis_tab" width="200" height="420"/>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="./screenshots/Screenshot_20240208_010455.png" alt="status_changing" width="200" height="420"/>
+
+<img src="./screenshots/Screenshot_20240208_010626.png" alt="status_changing" width="200" height="420"/>
+
+### Service Monitoring
+- Provides a list of available running services of the Service Management System
+
+<img src="./screenshots/Screenshot_20240208_010649.png"  width="200" height="420"/>
