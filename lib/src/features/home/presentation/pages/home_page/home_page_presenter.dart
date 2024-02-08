@@ -9,6 +9,7 @@ import 'package:ankabootmobile/src/features/ams_apis/presentation/stores/global_
 import 'package:ankabootmobile/src/features/home/presentation/blocs/home_page_ams_api_filter_bloc.dart';
 import 'package:ankabootmobile/src/features/home/presentation/pages/home_page/home_page_model.dart';
 import 'package:ankabootmobile/src/features/home/presentation/pages/home_page/home_page_view.dart';
+import 'package:ankabootmobile/src/features/service_management_system/presentation/blocs/fetch_sms_services.dart';
 import 'package:ankabootmobile/src/features/settings/domain/entities/app_theme.dart';
 import 'package:ankabootmobile/src/features/settings/presentation/stores/global_settings_store.dart';
 import 'package:flutter/material.dart';
@@ -58,8 +59,11 @@ final class HomePagePresenter
   void setAMSAPIStatusFilter(AMSAPIStatus status) =>
       model.homePageAMSAPIFilterBloc.selectStatus(status);
 
+  void fetchSMSServices() => model.fetchSMSServicesBloc.fetchServices();
+
   @override
   void dispose() {
+    model.fetchSMSServicesBloc.close();
     model.fetchAMSAPIsBloc.close();
     model.homePageTabBloc.close();
     super.dispose();
@@ -91,6 +95,9 @@ final class HomePagePresenter
   BlocBase<int> homePageTabBloc() => model.homePageTabBloc;
 
   BlocBase<FetchAMSAPIsState> fetchAMSAPIsBloc() => model.fetchAMSAPIsBloc;
+
+  BlocBase<FetchSMSServicesState> fetchSMSServicesBloc() =>
+      model.fetchSMSServicesBloc;
 
   BlocBase<HomePageAMSAPIFilterState> homePageAMSAPIFilterBloc() =>
       model.homePageAMSAPIFilterBloc;

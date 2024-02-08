@@ -6,6 +6,7 @@ import 'package:ankabootmobile/src/features/home/presentation/home_navigator.dar
 import 'package:ankabootmobile/src/features/home/presentation/pages/home_page/home_page_presenter.dart';
 import 'package:ankabootmobile/src/features/home/presentation/pages/home_page/home_page_view.dart';
 import 'package:ankabootmobile/src/features/home/presentation/pages/home_page/tabs/home_page_ams_apis_tab.dart';
+import 'package:ankabootmobile/src/features/home/presentation/pages/home_page/tabs/home_page_sms_services_tab.dart';
 import 'package:ankabootmobile/src/features/settings/presentation/stores/global_settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +21,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> implements HomePageView {
   late final _presenter = HomePagePresenter.fromEnv()
     ..bindView(this)
-    ..fetchAMSAPIs();
+    ..fetchAMSAPIs()
+    ..fetchSMSServices();
   late final _navigator = HomeNavigator.fromEnv();
   late final _tabBarController = PageController();
 
@@ -94,7 +96,10 @@ class _HomePageState extends State<HomePage> implements HomePageView {
                 presenter: _presenter,
                 navigator: _navigator,
               ),
-              const SizedBox(),
+              HomePageSMSServicesTab(
+                presenter: _presenter,
+                navigator: _navigator,
+              ),
             ],
           ),
         ),

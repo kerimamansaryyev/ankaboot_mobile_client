@@ -1,4 +1,3 @@
-import 'package:ankabootmobile/src/core/ui/localization_extension.dart';
 import 'package:flutter/material.dart';
 
 class EmptyListWidget extends StatelessWidget {
@@ -17,7 +16,7 @@ class EmptyListWidget extends StatelessWidget {
           Expanded(
             child: Center(
               child: Text(
-                context.translation.homePagesEmptyAPIs,
+                text,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: Theme.of(context).colorScheme.primary,
                     ),
