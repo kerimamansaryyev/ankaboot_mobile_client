@@ -102,12 +102,12 @@ Future<_i1.GetIt> $initGetIt(
       () => _i16.ThemeRepositoryImpl(gh<_i14.SharedPreferences>()));
   gh.factory<_i17.AMSAPIsNavigator>(
       () => _i17.AMSAPIsNavigator(gh<_i5.AppNavigator>()));
-  gh.factory<_i18.CreateAMSAPIBloc>(
-      () => _i18.CreateAMSAPIBloc(gh<_i7.CreateAMSAPIEntity>()));
-  gh.factory<_i19.CreateAMSAPIPageModel>(() => _i19.CreateAMSAPIPageModel(
+  gh.factory<_i18.CreateAMSAPIBloc>(() => _i18.CreateAMSAPIBloc(
+        gh<_i7.CreateAMSAPIEntity>(),
         gh<_i10.GlobalInterPageConversationBloc>(),
-        gh<_i18.CreateAMSAPIBloc>(),
       ));
+  gh.factory<_i19.CreateAMSAPIPageModel>(
+      () => _i19.CreateAMSAPIPageModel(gh<_i18.CreateAMSAPIBloc>()));
   gh.factory<_i20.CreateAMSAPIPagePresenter>(
       () => _i20.CreateAMSAPIPagePresenter(gh<_i19.CreateAMSAPIPageModel>()));
   gh.factory<_i21.FetchAMSAPIsBloc>(

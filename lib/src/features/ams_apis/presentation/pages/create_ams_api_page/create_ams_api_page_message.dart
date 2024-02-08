@@ -2,9 +2,5 @@ import 'package:ankabootmobile/src/core/presentation/blocs/global_interpage_conv
 
 final class CreateAMSAPIPageAPICreatedMessage
     implements GlobalInterPageConversationMessage {
-  final String text;
-
-  const CreateAMSAPIPageAPICreatedMessage({
-    required this.text,
-  });
+  const CreateAMSAPIPageAPICreatedMessage();
 }

@@ -35,7 +35,7 @@ final class FetchAMSAPIsBloc extends Cubit<FetchAMSAPIsState> {
               apiEntities: amsAPIs,
             ),
     );
-    if (currentSession == _callingSession) {
+    if (currentSession == _callingSession && !isClosed) {
       emit(newState);
     }
   }

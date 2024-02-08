@@ -59,6 +59,13 @@ final class HomePagePresenter
       model.homePageAMSAPIFilterBloc.selectStatus(status);
 
   @override
+  void dispose() {
+    model.fetchAMSAPIsBloc.close();
+    model.homePageTabBloc.close();
+    super.dispose();
+  }
+
+  @override
   Widget buildMultiBlocListener(
     BuildContext context,
     Widget child, {

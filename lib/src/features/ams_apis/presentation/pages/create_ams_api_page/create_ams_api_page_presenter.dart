@@ -4,7 +4,6 @@ import 'package:ankabootmobile/src/core/utils/mvp/app_presenter.dart';
 import 'package:ankabootmobile/src/di/injection_container.dart';
 import 'package:ankabootmobile/src/features/ams_apis/domain/entities/ams_api_status.dart';
 import 'package:ankabootmobile/src/features/ams_apis/presentation/blocs/create_ams_api_bloc.dart';
-import 'package:ankabootmobile/src/features/ams_apis/presentation/pages/create_ams_api_page/create_ams_api_page_message.dart';
 import 'package:ankabootmobile/src/features/ams_apis/presentation/pages/create_ams_api_page/create_ams_api_page_model.dart';
 import 'package:ankabootmobile/src/features/ams_apis/presentation/pages/create_ams_api_page/create_ams_api_page_view.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +43,12 @@ final class CreateAMSAPIPagePresenter
   BlocBase<CreateAMSAPIState> createAMSAPIBloc() => model.createAMSAPIBloc;
 
   @override
+  void dispose() {
+    model.createAMSAPIBloc.close();
+    super.dispose();
+  }
+
+  @override
   Widget buildMultiBlocListener(
     BuildContext context,
     Widget child, {
@@ -64,11 +69,6 @@ final class CreateAMSAPIPagePresenter
               view?.showSuccessDialog(
                 context,
                 context.translation.createAMSAPIPageAPICreated,
-              );
-              model.globalInterPageConversationBloc.publishMessage(
-                CreateAMSAPIPageAPICreatedMessage(
-                  text: context.translation.createAMSAPIPageAPICreated,
-                ),
               );
               view?.popScreen();
             }(),
